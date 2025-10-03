@@ -14,9 +14,9 @@ Frontend: https://pdf-playground-psi.vercel.app/
 
 Backend Services:
 
-Marker tool (FastAPI + PyMuPDF): API docs
+Marker tool (FastAPI + PyMuPDF): https://siddhant-ugarkar--marker-tool-service-fastapi-app.modal.run/docs
 
-Surya tool (FastAPI): API docs
+Surya tool (FastAPI): https://siddhant-ugarkar--surya-tool-service-fastapi-app.modal.run/docs
 
 Quick Highlights
 
