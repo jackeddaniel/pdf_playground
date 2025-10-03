@@ -45,7 +45,7 @@ def fastapi_app():
     # CORS to enable cross origin communication
     web_app.add_middleware(
         CORSMiddleware,
-        allow_origins=["https://pdf-frontend.vercel.app", "*"],
+        allow_origins=["https://pdf-playground-psi.vercel.app", "*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
