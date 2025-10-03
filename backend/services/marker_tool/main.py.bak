@@ -1,0 +1,99 @@
+from fastapi import FastAPI, UploadFile, File, Query, HTTPException, Depends
+from fastapi.responses import StreamingResponse, JSONResponse
+from io import BytesIO
+import json
+import zipfile
+import base64
+import logging
+from marker.converters.pdf import PdfConverter
+from marker.models import create_model_dict
+from PIL.Image import Image
+
+# -------------------------------
+# Logging setup
+# -------------------------------
+logger = logging.getLogger("pdf_converter")
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# -------------------------------
+# FastAPI setup
+# -------------------------------
+app = FastAPI()
+MAX_FILE_SIZE = 20 * 1024 * 1024
+converter = PdfConverter(artifact_dict=create_model_dict())
+
+# -------------------------------
+# Helpers
+# -------------------------------
+async def file_size_limit(file: UploadFile = File(...)):
+    content = await file.read()
+    if len(content) > MAX_FILE_SIZE:
+        logger.warning(f"Rejected file '{file.filename}' exceeding max size")
+        raise HTTPException(status_code=413, detail="File too large")
+    file.file.seek(0)  # reset file pointer
+    return file
+
+def serialize_rendered(rendered):
+    data = rendered.model_dump()
+    if "images" in data and data["images"]:
+        from base64 import b64encode
+        encoded_images = []
+        for img in data["images"]:
+            if isinstance(img, Image):
+                buffer = BytesIO()
+                img.save(buffer, format="PNG")
+                encoded_images.append(b64encode(buffer.getvalue()).decode("utf-8"))
+            else:
+                encoded_images.append(str(img))
+        data["images"] = encoded_images
+    return data
+
+# -------------------------------
+# Main endpoint
+# -------------------------------
+@app.post("/convert")
+async def convert_pdf(
+    file: UploadFile = Depends(file_size_limit),
+    output: str = Query("markdown", enum=["markdown", "json"])
+):
+    logger.info(f"Received file: {file.filename}, output type: {output}")
+
+    try:
+        # Read PDF into memory
+        pdf_bytes = await file.read()
+
+        # Convert PDF using Marker
+        rendered = converter(BytesIO(pdf_bytes))
+        logger.info(f"PDF conversion successful: {file.filename}")
+
+    except Exception as e:
+        logger.exception(f"PDF conversion failed for file: {file.filename}")
+        raise HTTPException(status_code=500, detail=f"PDF conversion failed: {str(e)}")
+
+    try:
+        if output == "json":
+            response_data = serialize_rendered(rendered)
+            return JSONResponse(content=response_data)
+
+        elif output == "markdown":
+            zip_buffer = BytesIO()
+            with zipfile.ZipFile(zip_buffer, "w") as zipf:
+                zipf.writestr("converted.md", rendered.markdown)
+                zipf.writestr("metadata.json", json.dumps(rendered.metadata, indent=2))
+            zip_buffer.seek(0)
+            return StreamingResponse(
+                zip_buffer,
+                media_type="application/zip",
+                headers={"Content-Disposition": 'attachment; filename="converted.zip"'}
+            )
+
+    except Exception as e:
+        logger.exception(f"Failed to create output for file: {file.filename}")
+        raise HTTPException(status_code=500, detail=f"Failed to generate output: {str(e)}")
+

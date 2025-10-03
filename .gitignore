@@ -1,0 +1,236 @@
+# Gitignore for pdf_playground
+# Covers Python projects, virtualenvs, Next.js frontend, editor and OS files, and common build artifacts.
+
+# ------------------------
+# Python
+# ------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+*.egg
+.installed.cfg
+pip-wheel-metadata/
+share/python-wheels/
+*.manifest
+*.spec
+
+# Virtual environments (generic)
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Per-service virtualenvs (present in this repo)
+backend/services/*/.marker_env/
+backend/services/*/.surya_env/
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+*.cover
+*.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.coveragerc
+htmlcov/
+.tox/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# ------------------------
+# Node / Frontend
+# ------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Next.js build output
+frontend/pdf-frontend/.next/
+frontend/pdf-frontend/.next/*
+
+# Next.js cache (if present)
+.next/cache/
+
+# Static build outputs
+dist/
+out/
+
+# Local env files
+.env
+.env.*
+frontend/pdf-frontend/.env.local
+frontend/pdf-frontend/.env.development.local
+frontend/pdf-frontend/.env.test.local
+frontend/pdf-frontend/.env.production
+
+# ------------------------
+# IDEs and editors
+# ------------------------
+.vscode/
+*.sublime-workspace
+*.sublime-project
+.idea/
+.project
+.classpath
+.settings/
+*.tmproj
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ------------------------
+# Logs and databases
+# ------------------------
+*.log
+*.sql
+*.sqlite
+
+# ------------------------
+# Archives and compressed files
+# ------------------------
+*.tar.gz
+*.zip
+*.rar
+
+# ------------------------
+# Coverage and profiling
+# ------------------------
+.coverage
+coverage.xml
+htmlcov/
+*.prof
+
+# ------------------------
+# Build tools & caches
+# ------------------------
+.cache/
+.pytest_cache/
+__pypackages__/
+*/__pycache__/
+
+# ------------------------
+# Generated files from packaging
+# ------------------------
+*.egg-info/
+dist/
+build/
+
+# ------------------------
+# Private keys, credentials
+# ------------------------
+*.pem
+*.key
+*.crt
+id_rsa
+id_rsa.pub
+credentials.json
+secrets.json
+
+# ------------------------
+# Misc
+# ------------------------
+.coverage.*
+coverage-html/
+node_rebuild/
+
+# End of file
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
