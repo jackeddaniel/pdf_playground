@@ -39,7 +39,7 @@ cd pdf_playground
 
 ```bash
 # Navigate to a service
-cd backend/services/marker_tool
+cd backend/services/marker_tool # or surya, the procedure remains the same
 
 # Create virtual environment
 python -m venv .venv
@@ -49,7 +49,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # Run the service
-python main.py
+uvicorn main:app --port 8000
 ```
 
 > 💡 **Tip:** Backend services are deployed on Modal - you can use the live endpoints directly!
