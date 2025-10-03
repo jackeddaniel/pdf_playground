@@ -223,18 +223,7 @@ We welcome contributions! Here's how to get started:
 
 ---
 
-## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
 
 <div align="center">
 
-**Built with ❤️ for PDF processing enthusiasts**
-
-⭐ Star this repo if you find it useful!
-
-[Report Bug](../../issues) · [Request Feature](../../issues) · [Documentation](REPO_INDEX.md)
-
-</div>
